@@ -7,7 +7,7 @@ const Login = () => {
 
   let navigate = useNavigate();
 
-  const { captchaDone, updateUser } = useUserContext();
+  const { captchaDone, updateUser, updateLoggedIn } = useUserContext();
   const [showRegister, setShowRegister] = useState(false);
 
   const [name, setName] = useState("");
@@ -32,7 +32,8 @@ const Login = () => {
       //reset local state (username is still stored in context)
       setName('')
       if (json.password === password) {
-        updateUser(name, password) //set username in user context
+        updateUser(name, password); //set username in user context
+        updateLoggedIn(true);
         navigate('/home'); //if password matches, navigate to homepage
       } else {
         setWrongPassword(true);
@@ -73,7 +74,7 @@ const Login = () => {
   
   return (
     <>
-      <div className='flex flex-col w-full items-center justify-center'>
+      <div className='flex flex-col w-full items-center justify-center mt-24'>
         { !captchaDone &&
           <Captcha />
         }

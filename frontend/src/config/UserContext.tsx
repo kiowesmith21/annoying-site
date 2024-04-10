@@ -6,8 +6,10 @@ interface UserContextData {
   name: string;
   password: string;
   captchaDone: boolean;
+  loggedIn: boolean;
   updateUser: (newName: string, newPassword: string) => void;
   updateCaptchaDone: (captchaStatus: boolean) => void;
+  updateLoggedIn: (logStatus: boolean) => void;
 }
 
 // Create the context with an initial value (this will be used if a component is rendered outside the provider)
@@ -23,6 +25,7 @@ export const UserContextProvider: React.FC<UserContextProviderProps> = ({ childr
   const [name, setName] = React.useState('DefaultName');
   const [password, setPassword] = React.useState('default password');
   const [captchaDone, setCaptchaDone] = React.useState(false);
+  const [loggedIn, setLoggedIn] = React.useState(false);
 
   // Function to update the username and password
   const updateUser = (newName: string, newPassword: string) => {
@@ -35,13 +38,20 @@ export const UserContextProvider: React.FC<UserContextProviderProps> = ({ childr
     setCaptchaDone(captchaStatus);
   };
 
+  // Function to update the loggedIn status
+  const updateLoggedIn = (logStatus: boolean) => {
+    setLoggedIn(logStatus);
+  };
+
   // Provide the context value to the components in the tree
   const contextValue: UserContextData = {
     name,
     password,
     captchaDone,
+    loggedIn,
     updateUser,
-    updateCaptchaDone
+    updateCaptchaDone,
+    updateLoggedIn
   };
 
   return <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>;
