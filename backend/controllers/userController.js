@@ -8,15 +8,10 @@ const getAllUsers = async (req, res) => {
     res.status(200).json(users) //send back all users
 }
 
-//get single user
+//get single user by name
 const getUser = async (req, res) => {
-    const {id} = req.params //get id from route parameters
 
-    if(!mongoose.Types.ObjectId.isValid(id)) { //make sure id is valid
-        return res.status(404).json({error: 'No such user'})
-    }
-
-    const user = await User.findById(id)
+    const user = await User.findOne({name: req.params.name}) //find first user that has name matching the request parameter (ie. ap/users/testuser)
 
     if (!user) {
         return res.status(404).json({error: 'No such user'})
